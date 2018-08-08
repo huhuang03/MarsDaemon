@@ -86,7 +86,7 @@ void kill_zombie_process(char* zombie_name){
     }
 }
 
-JNIEXPORT void JNICALL Java_com_marswin89_marsdaemon_nativ_NativeDaemonAPI20_doDaemon(JNIEnv *env, jobject jobj, jstring pkgName, jstring svcName, jstring daemonPath){
+JNIEXPORT void JNICALL Java_com_tonghu_marsdaemon_nativ_NativeDaemonAPI20_doDaemon(JNIEnv *env, jobject jobj, jstring pkgName, jstring svcName, jstring daemonPath){
 	if(pkgName == NULL || svcName == NULL || daemonPath == NULL){
 		LOGE("native doDaemon parameters cannot be NULL !");
 		return ;

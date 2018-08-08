@@ -11,6 +11,10 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        ndk{
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
+
     }
 
     buildTypes {
@@ -52,8 +56,8 @@ publish {
     userOrg = 'huhuang03'
     groupId = 'com.th.android'
     artifactId = 'marsdaemon'
-    publishVersion = '1.1.0'
-    desc = '保活，待处理多个so'
+    publishVersion = '1.2.1'
+    desc = '增加全so'
     website = 'github?'
 }
 

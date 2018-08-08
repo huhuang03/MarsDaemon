@@ -30,7 +30,7 @@ add_library( # Specifies the name of the library.
              src/main/cpp/daemon_api21.c
              src/main/cpp/common.c)
 
-include_directories(src/main/cpp)
+include_directories(src/main/cpp/includes)
 
 
 find_library( # Defines the name of the path variable that stores the
