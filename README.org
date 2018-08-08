@@ -1,0 +1,51 @@
+Fork from: https://github.com/Marswin/MarsDaemon
+
+
+因为原作者没有在维护，而此lib又没有放在jcenter上，继承起来比较麻烦。所以增加了jcenter，其他逻辑都没有改！！
+
+* Install
+** Step1
+in your app/build.gradle
+#+BEGIN_SRC gradle
+implementation 'com.th.android:marsdaemon:1.1.0'
+#+END_SRC
+
+** Step2
+regist 2 Service and 2 BroadcastReceiver in your manifests in 2 different process.
+<service android:name=".MarsJobService" android:process=":mars1"/>
+<receiver android:name=".MarsHelperService" android:process=":mar1"/>
+<service android:name=".MarsJobReceiver" android:process=":mars2"/>
+<receiver android:name=".MarsHelperReceiver" android:process=":mars2"/>
+
+** Step3
+make your application extends DaemonApplication and override the method getDaemonConfigurations(). Return back the confugirations.
+#+BEGIN_SRC java
+@Override
+protected DaemonConfigurations getDaemonConfigurations() {
+    DaemonConfigurations.DaemonConfiguration configuration1 = new DaemonConfigurations.DaemonConfiguration("your.package:mars1", MarsJobService.class.getCanonicalName(), MarsJobReceiver.class.getCanonicalName());
+    DaemonConfigurations.DaemonConfiguration configuration2 = new DaemonConfigurations.DaemonConfiguration("your.package:mars2", MarsHelperService.class.getCanonicalName(), MarsHelperReceiver.class.getCanonicalName());
+    DaemonConfigurations.DaemonListener listener = new MyDaemonListener();
+    return new DaemonConfigurations(configuration1, configuration2, listener);
+}
+#+END_SRC
+
+if you want to override attachBaseContext you will find it had been defined final by me. you can override attachBaseContextByDaemon instead it.
+
+see more details in MyApplication1 in demo
+
+if your application has extends another application, you should create a DaemonClient and perfrom it in attachBaseContext(), DONOT forget perform super.attachBaseContext() before!
+
+#+BEGIN_SRC java
+private DaemonClient mDaemonClient;
+@Override
+protected void attachBaseContext(Context base) {
+    super.attachBaseContext(base);
+    mDaemonClient = new DaemonClient(createDaemonConfigurations());
+    mDaemonClient.onAttachBaseContext(base);
+}
+#+END_SRC
+
+see more details in MyApplication2 in DemoMarsdaemon
+
+** Step4
+Launch the Service once, and try to kill it.
