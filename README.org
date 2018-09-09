@@ -12,10 +12,13 @@ implementation 'com.th.android:marsdaemon:1.1.0'
 
 ** Step2
 regist 2 Service and 2 BroadcastReceiver in your manifests in 2 different process.
+
+#+BEGIN_SRC xml
 <service android:name=".MarsJobService" android:process=":mars1"/>
 <receiver android:name=".MarsHelperService" android:process=":mar1"/>
 <service android:name=".MarsJobReceiver" android:process=":mars2"/>
 <receiver android:name=".MarsHelperReceiver" android:process=":mars2"/>
+#+END_SRC
 
 ** Step3
 make your application extends DaemonApplication and override the method getDaemonConfigurations(). Return back the confugirations.
